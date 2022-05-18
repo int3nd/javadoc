@@ -20,12 +20,34 @@ public class ShapeFactory
     public Paint paint;
     public int width;
     public int height;
-    
+
+
+    /**
+     * Метод для обирання форми і кольору
+     * @param shape_type
+     * Поділить число на 10 і знайде залишок від ділення на 10
+     *
+     * Ціла частина від ділення, відповідає за форму
+     * 1 - шестикутник
+     * 3 - п'ятикутна зірка
+     * 5 - квадрат
+     * 7 - трикутник
+     * 9 - коло з вирізом у формі трикутника
+     * щось інше - помилка
+     *
+     * Залишок відповідає за колір
+     * 1 - ширина 3
+     * 3 - без змін
+     * 4 - ширина 7
+     * 7 - біло сірий градієнт
+     * 9 - червоний колір
+     * щось інше - помилка
+     */
     public ShapeFactory(final int shape_type) {
         this.width = 25;
         this.height = 25;
         this.stroke = new BasicStroke(3.0f);
-        switch (3) {
+        switch (shape_type / 10) {
             case 1: {
                 this.shape = createStar(3, new Point(0, 0), this.width / 2.0, this.width / 2.0);
                 break;
@@ -56,7 +78,7 @@ public class ShapeFactory
                 throw new Error("type is nusupported");
             }
         }
-        switch (7) {
+        switch (shape_type % 10) {
             case 1: {
                 this.stroke = new BasicStroke(3.0f);
                 break;
@@ -81,7 +103,14 @@ public class ShapeFactory
             }
         }
     }
-    
+
+    /**
+     * Метод для малювання зірки
+     * @param arms - кількість кутів
+     * @param center - кордината центру
+     * @param rOuter - радіус зовнішній
+     * @param rInner - радіус внутрішній
+     */
     private static Shape createStar(final int arms, final Point center, final double rOuter, final double rInner) {
         final double angle = 3.141592653589793 / arms;
         final GeneralPath path = new GeneralPath();
